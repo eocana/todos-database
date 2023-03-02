@@ -1,16 +1,3 @@
-// const data = [
-//   {
-//     id: 1,
-//     text: "hola",
-//     done: true,
-//   },
-//   {
-//     id: 2,
-//     text: "adios",
-//     done: false,
-//   },
-// ];
-
 const sqlite3 = require("sqlite3").verbose();
 
 const DBSOURCE = "./todos.sqlite";
@@ -43,69 +30,29 @@ function asyncAll(){
     });
   })
 }
-// new promise syntax:
-// function all(req, res) {
-//  console.log(asyncAll());
-//  asyncAll()
-//   .then((rows) =>{
-//     res.json(rows);
-//   })
-//   .catch((err) =>{
-//     res.status(500).json({error: err});
-//   })
-// }
 
-//new async/await sintax
-async function all(req, res){
-  try{
-    const rows = await asyncAll();
-    res.json(rows)
-   
-  } catch(ex){
-    res.status(500).json({error: err});
-  }
+
+function asyncRemove(id) {
+  return new Promise((resolve, reject) => {
+    
+    const sql = "DELETE FROM todos WHERE ID = ?";
+    const params = [id];
+
+    db.run(sql, params, function (err) {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    })
+
   
-}
+  })
 
-function item() {
-  return;
-}
-
-function insert(req, res) {
-  var sql = `INSERT INTO todos (todo, done) VALUES ( '${req.body.text}' , false);`;
-  console.log(sql);
-
-  var params = [];
-
-  db.run(sql, params, function (err) {
-    console.log(this);
-    console.log(err);
-    if (err) {
-      console.log(err);
-      res.status(400).json({ error: err.message });
-      return;
-    }
-
-    res.json({
-      id: this.lastID,
-      text: req.body.text,
-      done: false,
-    });
-  });
-}
-
-function update() {
-  return;
-}
-
-function remove() {
-  return;
 }
 
 module.exports = {
-  all,
-  item,
-  insert,
-  update,
-  remove,
-};
+  asyncAll,
+  asyncRemove,
+  // asyncInsert,
+  // asyncUpdate,
+  };
