@@ -1,4 +1,4 @@
-const {asyncAll, asyncRemove} = require('./database.js');
+const {asyncAll, asyncRemove, asyncUpdate} = require('./database.js');
 
 //new async/await sintax
 async function all(req, res){
@@ -7,7 +7,7 @@ async function all(req, res){
     res.json(rows)
    
   } catch(ex){
-    res.status(500).json({error: err});
+    res.status(500).json({error: ex.message});
   }
   
 }
@@ -39,7 +39,23 @@ function insert(req, res) {
 //   });
 }
 
-function update(req, res) {
+async function update(req, res) {
+  try {
+
+    const {done}  = req.body;
+    
+    await asyncUpdate(req.params.id, done);
+    res.status(200).json({});
+  } catch (ex) { 
+  
+    res.status(500).json({ error: ex.message });
+    // res.status(404).json({ error: ex.message });
+  }
+
+
+  return;
+
+
   return;
 }
 
@@ -49,7 +65,8 @@ async function remove(req, res) {
     res.status(200).json({});
   } catch (ex) { 
   
-     res.status(500).json({ error: ex.message });
+    res.status(500).json({ error: ex.message });
+    // res.status(404).json({ error: ex.message });
   }
 
 

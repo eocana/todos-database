@@ -2,6 +2,54 @@
 
 const DBSOURCE = "./todos.sqlite";
 
+const betterSqlite3 = require('better-sqlite3');
+
+const bd = betterSqlite3(DBSOURCE);
+
+
+
+function asyncAll() { 
+  const stm = bd.prepare('SELECT * FROM todos')
+  const rows = stm.all();
+
+  return rows;
+}
+
+function asyncRemove(id) {
+
+  const stm = bd.prepare("DELETE FROM todos WHERE id = ?");
+  const row = stm.run(id);
+
+  return row;
+}
+
+
+function asyncUpdate(id, done) {
+
+  //done es boolean y SQLite3 can only bind numbers, strings, bigints, buffers, and null
+
+  const intDone = (done) ? 1 : 0;
+
+  const stm = bd.prepare("UPDATE todos SET done = ?  WHERE id = ? ");
+  const row = stm.run(intDone, id);
+
+  return row;
+}
+
+
+module.exports = {
+  asyncAll,
+  asyncRemove,
+  asyncUpdate,
+  // insert,
+  // item,
+  // update
+  // asyncUpdate,
+  };
+
+
+/*
+
 const db = new sqlite3.Database(DBSOURCE, (err) => {
   console.error(err);
 });
@@ -56,3 +104,4 @@ module.exports = {
   // asyncInsert,
   // asyncUpdate,
   };
+*/
