@@ -1,4 +1,4 @@
-const {asyncAll, asyncRemove} = require('./database.js');
+const {asyncAll, asyncRemove, asyncInsert, asyncUpdate, asyncItem} = require('./database.js');
 
 //new async/await sintax
 async function all(req, res){
@@ -12,41 +12,46 @@ async function all(req, res){
   
 }
 
-function item() {
+async function item(req, res) {
+  try {
+    const row = await asyncItem(req.params.id);
+    res.json(row)
+  } catch (ex) {
+    res.status(500).json({error: ex.message});
+   }
   return;
 }
 
-function insert(req, res) {
-//   var sql = `INSERT INTO todos (todo, done) VALUES ( '${req.body.text}' , false);`;
-//   console.log(sql);
+async function insert(req, res) {
+  try {
+    
+    const { text, done } = req.body;
+    
+    await asyncInsert(text, done);
+    
+    res.status(200).json({})
 
-//   var params = [];
+  } catch (ex) {
+    res.status(500).json({error: ex.message});
+   }
 
-//   db.run(sql, params, function (err) {
-//     console.log(this);
-//     console.log(err);
-//     if (err) {
-//       console.log(err);
-//       res.status(400).json({ error: err.message });
-//       return;
-//     }
-
-//     res.json({
-//       id: this.lastID,
-//       text: req.body.text,
-//       done: false,
-//     });
-//   });
 }
 
-function update(req, res) {
+async function update(req, res) {
+  try {
+    const id = req.params.id;
+    const {text, done} = req.body;
+    await asyncUpdate(id, text ,done);
+   } catch (ex) {
+    res.status(500).json({error: ex.message});
+  }
   return;
 }
 
 async function remove(req, res) {
   try {
     await asyncRemove(req.params.id);
-    res.status(200).json({});
+    res.status(200).json({})
   } catch (ex) { 
   
      res.status(500).json({ error: ex.message });
