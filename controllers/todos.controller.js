@@ -1,4 +1,4 @@
-const {asyncAll, asyncRemove, asyncInsert, asyncUpdate, asyncItem} = require('./database.js');
+const {asyncAll, asyncRemove, asyncInsert, asyncUpdate, asyncItem} = require('../daos/todos.dao.js');
 
 //new async/await sintax
 async function all(req, res){

@@ -1,24 +1,24 @@
 const express = require("express");
 const cors = require("cors");
-const { all, item, update, insert, remove } = require("./controller");
+
 
 const app = express();
 const port = 3000;
 
-
-
 app.use(cors());
 app.use(express.json());
 
-app.get("/todos", all); //done
+const todosRouter = require("./routers/todos.router.js")
 
-app.post("/todos", insert); //done
+const usersRouter = require("./routers/users.router.js")
 
-app.get("/todos/:id",item);
 
-app.put("/todos/:id", update);
+//app.use("/todos", todosRouter);
+app.use("/users", usersRouter);
 
-app.delete("/todos/:id", remove); //done
+app.all("*", (req, res) => { 
+  res.status(404).json({ error: "Esta pagina no existe"});
+})
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
