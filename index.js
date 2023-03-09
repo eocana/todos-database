@@ -12,7 +12,7 @@ app.use(express.json());
 
 app.get("/todos", all);
 
-app.post("/todos/:id", insert);
+app.post("/todos", insert);
 
 app.get("/todos/:id",item);
 
