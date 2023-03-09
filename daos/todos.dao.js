@@ -6,6 +6,27 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
   console.error(err);
 });
 
+
+function asyncTodosByUserId(id) { 
+console.log("🚀 ~ file: todos.dao.js:11 ~ asyncTodosByUserId ~ id:", id)
+
+  return new Promise((resolve, reject) =>{
+
+    const sql = "select * from todos WHERE id_user = ?";
+    console.log(sql);
+    const params = [id];
+    
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(rows);
+    });
+  })
+}
+
+
 function asyncAll(){
   return new Promise((resolve, reject) =>{
 
@@ -118,4 +139,5 @@ module.exports = {
   asyncInsert,
   asyncUpdate,
   asyncItem,
+  asyncTodosByUserId,
   };

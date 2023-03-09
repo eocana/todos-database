@@ -7,24 +7,6 @@ const db = new sqlite3.Database(DBSOURCE, (err) => {
 });
 
 
-function asyncTodosByUserId(id) { 
-
-  return new Promise((resolve, reject) =>{
-
-    const sql = "select * from users WHERE id = ?";
-    console.log(sql);
-    const params = [id];
-    
-    db.all(sql, params, (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(rows);
-    });
-  })
-}
-
 function asyncAll(){
   return new Promise((resolve, reject) =>{
 
@@ -128,5 +110,4 @@ module.exports = {
   asyncInsert,
   asyncUpdate,
   asyncItem,
-  asyncTodosByUserId,
   };

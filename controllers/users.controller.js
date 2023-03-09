@@ -1,17 +1,6 @@
 const {asyncAll, asyncRemove, asyncInsert, asyncUpdate, asyncItem, asyncTodosByUserId} = require('../daos/users.dao.js');
 
 
-async function allTodosByUserId(req, res){
-  try {
-    const { id } = req.params;
-    const rows = await asyncTodosByUserId(id);
-    res.json(rows)
-   
-  } catch(ex){
-    res.status(500).json({error: ex.message});
-  }
-  
-}
 
 //new async/await sintax
 async function all(req, res){
@@ -80,5 +69,5 @@ module.exports = {
   insert,
   update,
   remove,
-  allTodosByUserId,
+
 };

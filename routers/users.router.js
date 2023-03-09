@@ -14,8 +14,13 @@ router.put("/:id", update);
 
 router.delete("/:id", remove); 
 
-router.use("/:id/todos", todosRouter);
+router.param("id_user", (req, res, next, value) => { 
+    req.USER_ID = value;
+    next();
+})
 
+router.use("/:id/todos", todosRouter);
+   
 // router.get("/:id/todos", allTodosByUserId);
 
 

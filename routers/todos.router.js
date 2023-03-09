@@ -1,10 +1,10 @@
 const express = require('express')
-const { all, item, update, insert, remove } =
+const { all, item, update, insert, remove,  allTodosByUserId} =
         require("../controllers/todos.controller");
-const router = express.Router()
+const router = express.Router({mergeParams:true})
 
 
-router.get("/", all); 
+router.get("/", allTodosByUserId); 
 
 router.get("/:id",item);
 

@@ -1,4 +1,19 @@
-const {asyncAll, asyncRemove, asyncInsert, asyncUpdate, asyncItem} = require('../daos/todos.dao.js');
+const {asyncAll, asyncRemove, asyncInsert, asyncUpdate, asyncItem, asyncTodosByUserId} = require('../daos/todos.dao.js');
+
+
+async function allTodosByUserId(req, res, next){
+  try {
+    const { id } = req.params;
+    const rows = await asyncTodosByUserId(id);
+    console.log("🚀 ~ file: todos.controller.js:8 ~ allTodosByUserId ~ rows:", rows)
+    res.json(rows)
+   
+  } catch(ex){
+    res.status(500).json({error: ex.message});
+  }
+  
+}
+
 
 //new async/await sintax
 async function all(req, res){
@@ -63,8 +78,10 @@ async function remove(req, res) {
 
 module.exports = {
   all,
+  allTodosByUserId,
   item,
   insert,
   update,
   remove,
+  
 };
